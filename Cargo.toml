@@ -1,0 +1,12 @@
+[package]
+name = "utilsgen"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/anthodev/utilsgen"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ulid = "1.1.2"
+uuid = { version = "1.7.0", features = ["v4"] }
+chrono = "0.4.34"
