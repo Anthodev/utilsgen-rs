@@ -1,14 +1,15 @@
 [package]
 name = "utilsgen"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 repository = "https://github.com/anthodev/utilsgen-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ulid = "1.1.*"
-uuid = { version = "1.7.*", features = ["v4"] }
-chrono = "0.4.*"
-regex = "1.10.*"
-rand = "0.8.*"
+ulid = "^1.*"
+uuid = { version = "^1.*", features = ["v4"] }
+chrono = "^0.*"
+regex = "^1.*"
+rand = "^0.8.*"
+arboard = "^3.*"

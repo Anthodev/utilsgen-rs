@@ -150,7 +150,7 @@ mod tests {
     #[test]
     fn test_handle_cmd_with_symfony() {
         let command = Command {
-            generator: "symfony".to_string(),
+            generator: "sf".to_string(),
             option: "".to_string(),
             value: "".to_string(),
         };
@@ -163,7 +163,7 @@ mod tests {
     #[test]
     fn test_handle_cmd_with_random_option() {
         let command = Command {
-            generator: "symfony".to_string(),
+            generator: "sf".to_string(),
             option: "time".to_string(),
             value: "".to_string(),
         };
