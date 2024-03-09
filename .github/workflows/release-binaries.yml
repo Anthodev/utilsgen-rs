@@ -41,8 +41,8 @@ jobs:
           name: utilsgen-linux-x86_64
           path: target/x86_64-unknown-linux-gnu/release/utilsgen-linux-x86_64.tar.xz
 
-    macos-x86_64:
-      runs-on: macos-latest
+    macos-latest:
+      runs-on: macos-14
       steps:
         - name: Checkout
           uses: actions/checkout@v2
