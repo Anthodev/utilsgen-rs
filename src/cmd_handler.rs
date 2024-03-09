@@ -1,5 +1,5 @@
 use std::ffi::OsString;
-use crate::{ulidgen, sfgen};
+use crate::{ulidgen, sfgen, uuidgen};
 
 pub struct Command {
     pub generator: String,
@@ -58,6 +58,9 @@ pub fn handle_cmd(cmd: Command) -> String {
     return match cmd.generator.as_str() {
         "ulid" => {
             ulidgen::gen_ulid()
+        }
+        "uuid" => {
+            uuidgen::gen_uuid()
         }
         "sf" => {
             sfgen::gen_symfony_secret()
@@ -184,5 +187,19 @@ mod tests {
         let output = handle_cmd(command);
 
         assert_eq!(output, "Unknown generator");
+    }
+
+    #[test]
+    fn test_handle_cmd_with_uuid() {
+        let command = Command {
+            generator: "uuid".to_string(),
+            option: "".to_string(),
+            value: "".to_string(),
+        };
+
+        let output = handle_cmd(command);
+
+        let uuid_format_regex = regex::Regex::new(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$").unwrap();
+        assert!(uuid_format_regex.is_match(output.as_str()));
     }
 }

@@ -1,4 +1,5 @@
 mod ulidgen;
+mod uuidgen;
 mod sfgen;
 mod cmd_handler;
 
