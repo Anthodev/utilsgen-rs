@@ -1,0 +1,97 @@
+name: release-binaries
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+jobs:
+  linux-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          default: true
+      - name: Build binary
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target x86_64-unknown-linux-gnu
+          use-cross: true
+      - name: Optimize and package binary
+        run: |
+          cd target/x86_64-unknown-linux-gnu/release
+          strip ${{ github.workspace }}/target/x86_64-unknown-linux-gnu/release/your-binary
+          chmod +x utilsgen
+          tar -c utilsgen | gzip > utilsgen-linux-x86_64.tar.xz
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: utilsgen-linux-x86_64
+          path: target/x86_64-unknown-linux-gnu/release/utilsgen-linux-x86_64.tar.xz
+
+    macos-x86_64:
+      runs-on: macos-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Install Rust toolchain
+          uses: actions-rs/toolchain@v1
+          with:
+            profile: minimal
+            toolchain: stable
+            default: true
+        - name: Build binary
+          uses: actions-rs/cargo@v1
+          with:
+            command: build
+            args: --release --target x86_64-apple-darwin
+            use-cross: true
+        - name: Optimize and package binary
+          run: |
+            cd target/release
+            strip utilsgen
+            chmod +x utilsgen
+            mkdir dmg
+            mv utilsgen dmg
+            hdiutil create -fs HFS+ -volname "utilsgen" -srcfolder dmg utilsgen.dmg
+        - name: Upload binary
+          uses: actions/upload-artifact@v2
+          with:
+            name: utilsgen
+            path: target/release/utilsgen.dmg
+
+    windows-x86_64:
+      runs-on: windows-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Install Rust toolchain
+          uses: actions-rs/toolchain@v1
+          with:
+            profile: minimal
+            toolchain: stable
+            default: true
+        - name: Build binary
+          uses: actions-rs/cargo@v1
+          with:
+            command: build
+            args: --release
+            use-cross: true
+        - name: Upload binary
+          uses: actions/upload-artifact@v2
+          with:
+            name: utilsgen
+            path: target/release/utilsgen.exe
+
