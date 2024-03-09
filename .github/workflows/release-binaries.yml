@@ -27,7 +27,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --release --target x86_64-unknown-linux-gnu
+          args: --release
           use-cross: true
       - name: Optimize and package binary
         run: |
@@ -56,7 +56,7 @@ jobs:
           uses: actions-rs/cargo@v1
           with:
             command: build
-            args: --release --target x86_64-apple-darwin
+            args: --release
             use-cross: true
         - name: Optimize and package binary
           run: |
